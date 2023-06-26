@@ -1,6 +1,8 @@
 package com.blogapp.controllers;
 
+import com.blogapp.entities.EmailDetails;
 import com.blogapp.payload.UserDto;
+import com.blogapp.services.EmailService;
 import com.blogapp.services.UserService;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +29,29 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Autowired
+    EmailService emailService;
+    @Autowired
+    EmailDetails emailDetails;
+
     //CREATE user
     @PostMapping("/")
-    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto)
+    public ResponseEntity<UserDto> registerNewUser(@Valid @RequestBody UserDto userDto)
     {
-        UserDto createdUser = userService.createUser(userDto);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+        UserDto userRegistered = userService.registerNewUser(userDto);
+       // emailService.sendSimpleMail(userDto.getEmail(),emailDetails.getSubject(),emailDetails.getMsgBody());
+        EmailDetails emailDetails = EmailDetails.createRegistrationEmail(userDto.getEmail());
+        emailService.sendSimpleMail(userDto.getEmail(), emailDetails);
+        return new ResponseEntity<>(userRegistered, HttpStatus.CREATED);
     }
+
+//    //CREATE user
+//    @PostMapping("/")
+//    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto)
+//    {
+//        UserDto createdUser = userService.createUser(userDto);
+//        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+//    }
 
     //PUT Update user
     @PutMapping("/{userId}")

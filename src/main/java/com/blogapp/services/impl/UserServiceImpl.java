@@ -7,6 +7,7 @@ import com.blogapp.exception.ResourceNotFoundException;
 import com.blogapp.payload.UserDto;
 import com.blogapp.repository.RoleRepo;
 import com.blogapp.repository.UserRepo;
+import com.blogapp.services.EmailService;
 import com.blogapp.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private RoleRepo roleRepo;
 
 
@@ -42,12 +46,12 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(newUser, UserDto.class);
     }
 
-    @Override
-    public UserDto createUser(UserDto userDto) {
-        User user = dtoToUser( userDto);
-        User savedUser = userRepo.save(user);
-        return userToDto(savedUser);
-    }
+//    @Override
+//    public UserDto createUser(UserDto userDto) {
+//        User user = dtoToUser( userDto);
+//        User savedUser = userRepo.save(user);
+//        return userToDto(savedUser);
+//    }
 
     @Override
     public UserDto updateUser(UserDto userDto, Integer userId) {
