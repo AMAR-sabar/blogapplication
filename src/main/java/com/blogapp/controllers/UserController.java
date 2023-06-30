@@ -35,7 +35,7 @@ public class UserController {
     EmailDetails emailDetails;
 
     //CREATE user
-    @PostMapping("/")
+    @PostMapping("/register")
     public ResponseEntity<UserDto> registerNewUser(@Valid @RequestBody UserDto userDto)
     {
         UserDto userRegistered = userService.registerNewUser(userDto);

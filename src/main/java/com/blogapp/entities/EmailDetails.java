@@ -28,7 +28,6 @@ public class EmailDetails {
         String signature = "Best regards,";
         String nameOfSender="Amar.";
         String subject = "Registration Successful";
-
         return new EmailDetails(recipient, salutation, mainContent, closing, signature, subject,nameOfSender);
     }
 }
